@@ -7,3 +7,4 @@ Simple examples of using some technologies and design patterns.
 
 Kotlin, Koin, LiveData
 
+![](funAvatar.gif)
