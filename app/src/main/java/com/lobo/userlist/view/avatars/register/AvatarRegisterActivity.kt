@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.Window
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Observer
@@ -143,21 +144,29 @@ class AvatarRegisterActivity : AppCompatActivity(), AvatarAdapter.AvatarListener
     }
 
     private fun saveUser() {
-        viewModel.saveUser(
-            name = binding.userName.text.toString(),
-            bio = binding.userBio.text.toString(),
-            avatar = viewModel.drawable
-        )
+        if (shouldSaveData()) {
+            viewModel.saveUser(
+                name = binding.userName.text.toString(),
+                bio = binding.userBio.text.toString(),
+                avatar = viewModel.drawable
+            )
+        } else {
+            fillAllInfoMessageToast()
+        }
     }
 
     private fun updateUser() {
-        currentUser?.let {
-            viewModel.updateUser(
-                currentUser = it,
-                name = binding.userName.text.toString(),
-                bio = binding.userBio.text.toString(),
-                avatar = getDrawableAvatar()
-            )
+        if (shouldSaveData()) {
+            currentUser?.let {
+                viewModel.updateUser(
+                    currentUser = it,
+                    name = binding.userName.text.toString(),
+                    bio = binding.userBio.text.toString(),
+                    avatar = getDrawableAvatar()
+                )
+            }
+        } else {
+            fillAllInfoMessageToast()
         }
     }
 
@@ -168,6 +177,15 @@ class AvatarRegisterActivity : AppCompatActivity(), AvatarAdapter.AvatarListener
             viewModel.userInfo.value?.avatar?.drawable ?: 0
         }
     }
+
+    private fun shouldSaveData() =
+        binding.userName.text.toString().isEmpty().not() &&
+                binding.userBio.text.toString().isEmpty().not()
+
+    private fun fillAllInfoMessageToast() =
+        Toast.makeText(
+            applicationContext, getString(R.string.fill_fields_message), Toast.LENGTH_SHORT
+        ).show()
 
     private fun buildContainerTransform() =
         MaterialContainerTransform().apply {

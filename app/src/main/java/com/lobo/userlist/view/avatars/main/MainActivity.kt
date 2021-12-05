@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
             if (it.isEmpty()) {
                 noAvatarRegisteredToast()
             } else {
+                avatarRegisteredToast()
                 adapter.setData(it)
             }
         })
@@ -63,6 +64,8 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
         viewModel.userAfterDelete.observe(this, Observer {
             if (it.isEmpty()) {
                 noAvatarRegisteredToast()
+            } else {
+                avatarDeletedToast()
             }
             adapter.setData(it)
         })
@@ -77,7 +80,7 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
 
     private fun startActivityWithAnimation(intent: Intent) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this@MainActivity, binding.fabAdd, "shared_element_end_root"
+            this@MainActivity, binding.fabAdd, TRANSITION_NAME
         )
         startActivityForResult(intent, REQUEST_CODE, options.toBundle())
     }
@@ -94,10 +97,10 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
             Toast.LENGTH_LONG
         ).show()
 
-    private fun avatarUpdatedToast() =
+    private fun avatarDeletedToast() =
         Toast.makeText(
             applicationContext,
-            getString(R.string.avatar_successfully_updated_message),
+            getString(R.string.avatar_successfully_removed_message),
             Toast.LENGTH_LONG
         ).show()
 
@@ -134,6 +137,7 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
     }
 
     companion object {
+        private const val TRANSITION_NAME = "shared_element_end_root"
         private const val REQUEST_CODE = 0
         const val USER_INDEX_LIST = "USER_INDEX_LIST"
     }

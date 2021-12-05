@@ -8,5 +8,6 @@
     <string name="tap_to_set_avatar">Tap to set avatar</string>
     <string name="no_avatare_registered_message">No avatar registered :(</string>
     <string name="avatar_successfully_registered_message">Avatar successfully registered :)</string>
-    <string name="avatar_successfully_updated_message">Avatar successfully updated :)</string>
+    <string name="avatar_successfully_removed_message">Avatar successfully removed :)</string>
+    <string name="fill_fields_message">fill all information :)</string>
 </resources>
