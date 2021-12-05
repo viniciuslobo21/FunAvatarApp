@@ -11,7 +11,6 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.lobo.userlist.R
-import com.lobo.userlist.core.helpers.Resources.resourceHelper
 import com.lobo.userlist.databinding.ActivityMainBinding
 import com.lobo.userlist.view.avatars.main.adapter.UsersAdapter
 import com.lobo.userlist.view.avatars.register.AvatarRegisterActivity
@@ -23,7 +22,6 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
     lateinit var adapter: UsersAdapter
 
     private lateinit var binding: ActivityMainBinding
-    val REQUEST_CODE = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         addObservers()
@@ -43,7 +41,7 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
 
     private fun setupAdapter() {
         adapter = UsersAdapter(
-            context = resourceHelper.getContext(),
+            context = applicationContext,
             callback = this
         )
         binding.rvUsers.adapter = adapter
@@ -103,10 +101,6 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
             Toast.LENGTH_LONG
         ).show()
 
-    companion object {
-        const val USER_INDEX_LIST = "USER_INDEX_LIST"
-    }
-
     override fun onItemClick(userIndex: Int) {
         val intent = Intent(this@MainActivity, AvatarRegisterActivity::class.java)
         intent.putExtra(USER_INDEX_LIST, userIndex.toString())
@@ -137,5 +131,10 @@ class MainActivity : AppCompatActivity(), UsersAdapter.Callback {
                 true
             }
         }
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 0
+        const val USER_INDEX_LIST = "USER_INDEX_LIST"
     }
 }
